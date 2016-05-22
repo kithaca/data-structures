@@ -68,12 +68,15 @@ class LinkedList
       new_next = link.next ? link.next : nil
       link.prev.next = new_next if link.prev
       link.next.prev = new_prev if link.next
-
       @head = link.next unless link.prev
+
+      link
+    else
+      nil
     end
   end
 
-  def each(&block)
+  def each
     current_link = @head
     while (current_link)
       yield(current_link)
