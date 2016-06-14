@@ -33,6 +33,10 @@ class HashMap
     end
   end
 
+  def get_link(key)
+    bucket(key).get_link(key)
+  end
+
   def get(key)
     bucket(key).get(key)
   end

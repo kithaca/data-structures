@@ -18,6 +18,7 @@ class LinkedList
 
   def initialize
     @head = nil
+    @tail = nil
   end
 
   def [](i)
@@ -42,6 +43,11 @@ class LinkedList
     @head.nil?
   end
 
+  def get_link(key)
+    link = select { |link| link.key == key }.first
+    return link ? link : nil
+  end
+
   def get(key)
     link = select { |link| link.key == key }.first
     return link ? link.val : nil
@@ -59,6 +65,7 @@ class LinkedList
       last.next = link
       link.prev = last
     end
+    @tail = link
   end
 
   def remove(key)
@@ -69,6 +76,7 @@ class LinkedList
       link.prev.next = new_next if link.prev
       link.next.prev = new_prev if link.next
       @head = link.next unless link.prev
+      @tail = link.prev unless link.next
 
       link
     else
