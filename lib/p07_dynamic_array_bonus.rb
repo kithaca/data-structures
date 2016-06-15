@@ -1,5 +1,3 @@
-require 'byebug'
-
 class StaticArray
   def initialize(capacity)
     @store = Array.new(capacity)
@@ -39,14 +37,18 @@ class DynamicArray
   def [](i)
     return nil if i < 0 && (count + i < 0 || count + i >= count)
     return nil if i >= count
-    # debugger
     i < 0 ? @store[count + i] : @store[i]
   end
 
   def []=(i, val)
     return nil if i < 0 && (count + i < 0 || count + i >= count)
-    return nil if i >= count
-    i < 0 ? @store[count + i] = val : @store[i] = val
+    resize! if i >= capacity
+    if i < 0
+      @store[count + i] = val
+    else
+      @store[i] = val
+    end
+    @count += 1 if val
   end
 
   def capacity
@@ -87,12 +89,12 @@ class DynamicArray
 
   def shift
     return nil if count == 0
-
     first_el = @store[0]
     1.upto(capacity - 1) do |i|
       @store[i - 1] = @store[i]
     end
     @count -= 1
+    @store[capacity - 1] = nil
 
     first_el
   end
@@ -147,3 +149,7 @@ class DynamicArray
     @count = old_capacity
   end
 end
+
+a = DynamicArray.new(3)
+a[2] = 0
+puts a
